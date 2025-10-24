@@ -50,24 +50,24 @@ export default function MainPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-500 via-teal-500 to-blue-600 relative overflow-hidden">
+    <div className="min-h-screen bg-gradient-to-br from-gray-900 via-slate-900 to-gray-800 relative overflow-hidden">
       {/* Animated background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl -top-48 -left-48 animate-pulse"></div>
-        <div className="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl -bottom-48 -right-48 animate-pulse" style={{animationDelay: '1s'}}></div>
+        <div className="absolute w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl -top-48 -left-48 animate-pulse"></div>
+        <div className="absolute w-96 h-96 bg-teal-500/10 rounded-full blur-3xl -bottom-48 -right-48 animate-pulse" style={{animationDelay: '1s'}}></div>
       </div>
 
       {/* Main content */}
       <div className="relative z-10 container mx-auto px-4 py-8 md:py-16">
         {/* Header */}
         <div className="text-center mb-12 animate-fade-in">
-          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-lg rounded-2xl mb-6 shadow-xl">
-            <span className="text-5xl">¤</span>
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-2xl mb-6 shadow-xl">
+            <span className="text-5xl text-white">¤</span>
           </div>
           <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
             Currency Converter
           </h1>
-          <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+          <p className="text-gray-300 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
             Get real-time exchange rates and convert currencies instantly. 
             Perfect for travelers, shoppers, and international business.
           </p>
@@ -75,18 +75,18 @@ export default function MainPage() {
 
         {/* Main converter card */}
         <div className="max-w-2xl mx-auto">
-          <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-10 border border-white/20 animate-slide-up">
+          <div className="bg-gray-800/80 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-10 border border-gray-700/50 animate-slide-up">
             <form onSubmit={handleSubmit} className="space-y-6">
               {/* Date picker */}
               <div className="group">
-                <label className="block text-white text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-200">
+                <label className="block text-gray-200 text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-400">
                   📅 Date
                 </label>
                 <input
                   onChange={(e) => setDate(e.target.value)}
                   type="date"
                   value={date}
-                  className="w-full px-4 py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition-all duration-300 hover:bg-white/25"
+                  className="w-full px-4 py-3.5 bg-gray-700/50 backdrop-blur-sm border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:bg-gray-700/70"
                   required
                 />
               </div>
@@ -95,7 +95,7 @@ export default function MainPage() {
               <div className="space-y-4">
                 {/* Source currency */}
                 <div className="group">
-                  <label className="block text-white text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-200">
+                  <label className="block text-gray-200 text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-400">
                     💰 From
                   </label>
                   <div className="grid grid-cols-5 gap-3">
@@ -103,7 +103,7 @@ export default function MainPage() {
                       <select
                         onChange={(e) => setSourceCurrency(e.target.value)}
                         value={sourceCurrency}
-                        className="w-full px-4 py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition-all duration-300 hover:bg-white/25 appearance-none cursor-pointer"
+                        className="w-full px-4 py-3.5 bg-gray-700/50 backdrop-blur-sm border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:bg-gray-700/70 appearance-none cursor-pointer"
                         required
                       >
                         <option value="" className="bg-gray-800">Select currency</option>
@@ -120,7 +120,7 @@ export default function MainPage() {
                         type="number"
                         value={amountInSourceCurrency}
                         step="0.01"
-                        className="w-full px-4 py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition-all duration-300 hover:bg-white/25"
+                        className="w-full px-4 py-3.5 bg-gray-700/50 backdrop-blur-sm border border-gray-600 rounded-xl text-white placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:bg-gray-700/70"
                         placeholder="0.00"
                         required
                       />
@@ -133,7 +133,7 @@ export default function MainPage() {
                   <button
                     type="button"
                     onClick={handleSwapCurrencies}
-                    className="w-12 h-12 bg-white/20 backdrop-blur-lg rounded-full border-2 border-white/40 flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
+                    className="w-12 h-12 bg-gradient-to-br from-cyan-500 to-teal-500 rounded-full flex items-center justify-center text-white hover:from-cyan-600 hover:to-teal-600 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
                   >
                     <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
@@ -143,13 +143,13 @@ export default function MainPage() {
 
                 {/* Target currency */}
                 <div className="group">
-                  <label className="block text-white text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-200">
+                  <label className="block text-gray-200 text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-400">
                     💵 To
                   </label>
                   <select
                     onChange={(e) => setTargetCurrency(e.target.value)}
                     value={targetCurrency}
-                    className="w-full px-4 py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition-all duration-300 hover:bg-white/25 appearance-none cursor-pointer"
+                    className="w-full px-4 py-3.5 bg-gray-700/50 backdrop-blur-sm border border-gray-600 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-all duration-300 hover:bg-gray-700/70 appearance-none cursor-pointer"
                     required
                   >
                     <option value="" className="bg-gray-800">Select currency</option>
@@ -166,7 +166,7 @@ export default function MainPage() {
               <button
                 type="submit"
                 disabled={loading}
-                className="w-full py-4 bg-white text-cyan-600 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+                className="w-full py-4 bg-gradient-to-r from-cyan-500 to-teal-500 text-white rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:from-cyan-600 hover:to-teal-600 hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
               >
                 {loading ? (
                   <span className="flex items-center justify-center gap-2">
@@ -184,16 +184,16 @@ export default function MainPage() {
 
             {/* Result display */}
             {amountInTargetCurrency > 0 && amountInSourceCurrency && (
-              <div className="mt-8 p-6 bg-white/20 backdrop-blur-lg rounded-2xl border border-white/30 animate-fade-in">
+              <div className="mt-8 p-6 bg-gradient-to-br from-cyan-500/20 to-teal-500/20 backdrop-blur-lg rounded-2xl border border-cyan-500/30 animate-fade-in">
                 <div className="text-center">
-                  <p className="text-white/80 text-sm mb-2">Converted Amount</p>
+                  <p className="text-gray-300 text-sm mb-2">Converted Amount</p>
                   <div className="text-3xl md:text-4xl font-bold text-white mb-2">
-                    {amountInTargetCurrency} <span className="text-2xl">{targetCurrency}</span>
+                    {amountInTargetCurrency} <span className="text-2xl text-cyan-400">{targetCurrency}</span>
                   </div>
-                  <p className="text-white/70 text-sm">
+                  <p className="text-gray-300 text-sm">
                     {amountInSourceCurrency} {sourceCurrency} = {amountInTargetCurrency} {targetCurrency}
                   </p>
-                  <p className="text-white/60 text-xs mt-2">
+                  <p className="text-gray-400 text-xs mt-2">
                     Rate as of {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
                   </p>
                 </div>
@@ -202,7 +202,7 @@ export default function MainPage() {
           </div>
 
           {/* Footer info */}
-          <div className="text-center mt-8 text-white/70 text-sm">
+          <div className="text-center mt-8 text-gray-400 text-sm">
             <p>Powered by OpenExchangeRates • Real-time currency data</p>
           </div>
         </div>
