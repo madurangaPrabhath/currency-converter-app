@@ -2,15 +2,17 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 
 export default function MainPage() {
-  const [date, setDate] = useState(null);
+  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [sourceCurrency, setSourceCurrency] = useState("");
   const [targetCurrency, setTargetCurrency] = useState("");
-  const [amountInSourceCurrency, setAmountInSourceCurrency] = useState(0);
+  const [amountInSourceCurrency, setAmountInSourceCurrency] = useState("");
   const [amountInTargetCurrency, setAmountInTargetCurrency] = useState(0);
   const [currencyNames, setCurrencyNames] = useState([]);
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
     try {
       const response = await axios.get("http://localhost:8080/convert", {
         params: {
@@ -21,10 +23,16 @@ export default function MainPage() {
         },
       });
       setAmountInTargetCurrency(response.data);
-      console.log(amountInSourceCurrency, amountInTargetCurrency);
     } catch (error) {
       console.error(error);
+    } finally {
+      setLoading(false);
     }
+  };
+
+  const handleSwapCurrencies = () => {
+    setSourceCurrency(targetCurrency);
+    setTargetCurrency(sourceCurrency);
   };
 
   useEffect(() => {
@@ -42,111 +50,163 @@ export default function MainPage() {
   }, []);
 
   return (
-    <div>
-      <h1 className="lg:mx-32 text-5xl font-bold text-yellow-500 text-center">
-        Convert Your Currency
-      </h1>
-      <p className="lg:mx-32 opacity-40 py-6">
-        Welcome to "Currency Convertor", Your Currency makes currency conversion
-        quick and easy. Get real-time exchange rates, support for multiple
-        currencies, and a user-friendly interface all at your fingertips.
-        Perfect for travelers and online shoppers alike!
-      </p>
-
-      <div className="mt-5 flex items-center justify-center flex-col">
-        <section className="w-full lg:w-1/2">
-          <form onSubmit={handleSubmit}>
-            <div className="mb-5">
-              <label
-                htmlFor={date}
-                class="block mb-2 text-sm font-medium dark:text-white"
-              >
-                Date
-              </label>
-              <input
-                onChange={(e) => setDate(e.target.value)}
-                type="Date"
-                id={date}
-                name={date}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                required
-              />
-            </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor={sourceCurrency}
-                class="block mb-2 text-sm font-medium dark:text-white"
-              >
-                Source Currency
-              </label>
-              <select
-                onChange={(e) => setSourceCurrency(e.target.value)}
-                id={sourceCurrency}
-                name={sourceCurrency}
-                value={sourceCurrency}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-              >
-                <option value="">Select a source currency</option>
-                {Object.keys(currencyNames).map((currency) => (
-                  <option className="p-1" key={currency} value={currency}>
-                    {currencyNames[currency]}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor={targetCurrency}
-                class="block mb-2 text-sm font-medium dark:text-white"
-              >
-                Target Currency
-              </label>
-              <select
-                onChange={(e) => setTargetCurrency(e.target.value)}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                id={targetCurrency}
-                name={targetCurrency}
-                value={targetCurrency}
-              >
-                <option value="">Select a target currency</option>
-                {Object.keys(currencyNames).map((currency) => (
-                  <option className="p-1" key={currency} value={currency}>
-                    {currencyNames[currency]}
-                  </option>
-                ))}
-              </select>
-            </div>
-
-            <div className="mb-5">
-              <label
-                htmlFor={amountInSourceCurrency}
-                class="block mb-2 text-sm font-medium dark:text-white"
-              >
-                Amount in source currency
-              </label>
-              <input
-                onChange={(e) => setAmountInSourceCurrency(e.target.value)}
-                type="number"
-                id={amountInSourceCurrency}
-                name={amountInSourceCurrency}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                placeholder="Amount in source currency"
-                required
-              />
-            </div>
-
-            <button className="text-white bg-blue-700 hover:bg-blue-900 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-              Get the target Currency
-            </button>
-          </form>
-        </section>
+    <div className="min-h-screen bg-gradient-to-br from-cyan-500 via-teal-500 to-blue-600 relative overflow-hidden">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl -top-48 -left-48 animate-pulse"></div>
+        <div className="absolute w-96 h-96 bg-white/10 rounded-full blur-3xl -bottom-48 -right-48 animate-pulse" style={{animationDelay: '1s'}}></div>
       </div>
-      <section className="lg:mx-72 mt-5 text-xl">
-        {amountInSourceCurrency} {currencyNames[sourceCurrency]} is equals to {" "}
-        <span className="text-yellow-500 font-bold">{" "}{amountInTargetCurrency}{" "}</span> in {currencyNames[targetCurrency]}
-      </section>
+
+      {/* Main content */}
+      <div className="relative z-10 container mx-auto px-4 py-8 md:py-16">
+        {/* Header */}
+        <div className="text-center mb-12 animate-fade-in">
+          <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 backdrop-blur-lg rounded-2xl mb-6 shadow-xl">
+            <span className="text-5xl">¤</span>
+          </div>
+          <h1 className="text-5xl md:text-6xl font-bold text-white mb-4 drop-shadow-lg">
+            Currency Converter
+          </h1>
+          <p className="text-white/90 text-lg md:text-xl max-w-2xl mx-auto leading-relaxed">
+            Get real-time exchange rates and convert currencies instantly. 
+            Perfect for travelers, shoppers, and international business.
+          </p>
+        </div>
+
+        {/* Main converter card */}
+        <div className="max-w-2xl mx-auto">
+          <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-2xl p-8 md:p-10 border border-white/20 animate-slide-up">
+            <form onSubmit={handleSubmit} className="space-y-6">
+              {/* Date picker */}
+              <div className="group">
+                <label className="block text-white text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-200">
+                  📅 Date
+                </label>
+                <input
+                  onChange={(e) => setDate(e.target.value)}
+                  type="date"
+                  value={date}
+                  className="w-full px-4 py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition-all duration-300 hover:bg-white/25"
+                  required
+                />
+              </div>
+
+              {/* Currency inputs section */}
+              <div className="space-y-4">
+                {/* Source currency */}
+                <div className="group">
+                  <label className="block text-white text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-200">
+                    💰 From
+                  </label>
+                  <div className="grid grid-cols-5 gap-3">
+                    <div className="col-span-3">
+                      <select
+                        onChange={(e) => setSourceCurrency(e.target.value)}
+                        value={sourceCurrency}
+                        className="w-full px-4 py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition-all duration-300 hover:bg-white/25 appearance-none cursor-pointer"
+                        required
+                      >
+                        <option value="" className="bg-gray-800">Select currency</option>
+                        {Object.keys(currencyNames).map((currency) => (
+                          <option className="bg-gray-800" key={currency} value={currency}>
+                            {currency} - {currencyNames[currency]}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="col-span-2">
+                      <input
+                        onChange={(e) => setAmountInSourceCurrency(e.target.value)}
+                        type="number"
+                        value={amountInSourceCurrency}
+                        step="0.01"
+                        className="w-full px-4 py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white placeholder-white/60 focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition-all duration-300 hover:bg-white/25"
+                        placeholder="0.00"
+                        required
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                {/* Swap button */}
+                <div className="flex justify-center -my-2">
+                  <button
+                    type="button"
+                    onClick={handleSwapCurrencies}
+                    className="w-12 h-12 bg-white/20 backdrop-blur-lg rounded-full border-2 border-white/40 flex items-center justify-center text-white hover:bg-white/30 hover:scale-110 transition-all duration-300 shadow-lg hover:shadow-xl"
+                  >
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                    </svg>
+                  </button>
+                </div>
+
+                {/* Target currency */}
+                <div className="group">
+                  <label className="block text-white text-sm font-semibold mb-2 transition-all group-focus-within:text-cyan-200">
+                    💵 To
+                  </label>
+                  <select
+                    onChange={(e) => setTargetCurrency(e.target.value)}
+                    value={targetCurrency}
+                    className="w-full px-4 py-3.5 bg-white/20 backdrop-blur-sm border border-white/30 rounded-xl text-white focus:outline-none focus:ring-2 focus:ring-cyan-300 focus:border-transparent transition-all duration-300 hover:bg-white/25 appearance-none cursor-pointer"
+                    required
+                  >
+                    <option value="" className="bg-gray-800">Select currency</option>
+                    {Object.keys(currencyNames).map((currency) => (
+                      <option className="bg-gray-800" key={currency} value={currency}>
+                        {currency} - {currencyNames[currency]}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              </div>
+
+              {/* Convert button */}
+              <button
+                type="submit"
+                disabled={loading}
+                className="w-full py-4 bg-white text-cyan-600 rounded-xl font-bold text-lg shadow-xl hover:shadow-2xl hover:scale-[1.02] active:scale-[0.98] transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:scale-100"
+              >
+                {loading ? (
+                  <span className="flex items-center justify-center gap-2">
+                    <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
+                      <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
+                      <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    </svg>
+                    Converting...
+                  </span>
+                ) : (
+                  "Convert Currency"
+                )}
+              </button>
+            </form>
+
+            {/* Result display */}
+            {amountInTargetCurrency > 0 && amountInSourceCurrency && (
+              <div className="mt-8 p-6 bg-white/20 backdrop-blur-lg rounded-2xl border border-white/30 animate-fade-in">
+                <div className="text-center">
+                  <p className="text-white/80 text-sm mb-2">Converted Amount</p>
+                  <div className="text-3xl md:text-4xl font-bold text-white mb-2">
+                    {amountInTargetCurrency} <span className="text-2xl">{targetCurrency}</span>
+                  </div>
+                  <p className="text-white/70 text-sm">
+                    {amountInSourceCurrency} {sourceCurrency} = {amountInTargetCurrency} {targetCurrency}
+                  </p>
+                  <p className="text-white/60 text-xs mt-2">
+                    Rate as of {new Date(date).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+                  </p>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Footer info */}
+          <div className="text-center mt-8 text-white/70 text-sm">
+            <p>Powered by OpenExchangeRates • Real-time currency data</p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
