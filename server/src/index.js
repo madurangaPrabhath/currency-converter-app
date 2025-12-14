@@ -2,15 +2,36 @@ const express = require("express");
 const cors = require("cors");
 const axios = require("axios");
 
-const port = 8080;
+const port = process.env.PORT || 8080;
+const API_KEY =
+  process.env.OPENEXCHANGE_API_KEY || "e02546f30b924ceb80d0cc4d2411ea0a";
 
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+
+const allowedOrigins = [
+  "http://localhost:3000",
+  process.env.FRONTEND_URL,
+];
+
+app.use(
+  cors({
+    origin: function (origin, callback) {
+      if (!origin) return callback(null, true);
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const msg =
+          "The CORS policy for this site does not allow access from the specified Origin.";
+        return callback(new Error(msg), false);
+      }
+      return callback(null, true);
+    },
+    credentials: true,
+  })
+);
 
 app.get("/getAllCurrencies", async (req, res) => {
-  const nameURL = `https://openexchangerates.org/api/currencies.json?app_id=024c330f85374f8f928f827d5621cbd1`;
+  const nameURL = `https://openexchangerates.org/api/currencies.json?app_id=${API_KEY}`;
 
   try {
     const nameResponse = await axios.get(nameURL);
@@ -25,7 +46,7 @@ app.get("/convert", async (req, res) => {
   const { date, sourceCurrency, targetCurrency, amountInSourceCurrency } =
     req.query;
   try {
-    const dataUrl = `https://openexchangerates.org/api/historical/${date}.json?app_id=024c330f85374f8f928f827d5621cbd1`;
+    const dataUrl = `https://openexchangerates.org/api/historical/${date}.json?app_id=${API_KEY}`;
     const dataResponse = await axios.get(dataUrl);
     const rates = dataResponse.data.rates;
     const sourceRates = rates[sourceCurrency];
@@ -40,3 +61,6 @@ app.get("/convert", async (req, res) => {
 app.listen(port, () => {
   console.log("listening on port " + port);
 });
+
+// Export for Vercel serverless
+module.exports = app;

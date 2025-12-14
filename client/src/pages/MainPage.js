@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 
+const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
+
 export default function MainPage() {
-  const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
+  const [date, setDate] = useState(new Date().toISOString().split("T")[0]);
   const [sourceCurrency, setSourceCurrency] = useState("");
   const [targetCurrency, setTargetCurrency] = useState("");
   const [amountInSourceCurrency, setAmountInSourceCurrency] = useState("");
@@ -14,7 +16,7 @@ export default function MainPage() {
     e.preventDefault();
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8080/convert", {
+      const response = await axios.get(`${API_URL}/convert`, {
         params: {
           date,
           sourceCurrency,
@@ -38,9 +40,7 @@ export default function MainPage() {
   useEffect(() => {
     const getCurrencyNames = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/getAllCurrencies"
-        );
+        const response = await axios.get(`${API_URL}/getAllCurrencies`);
         setCurrencyNames(response.data);
       } catch (error) {
         console.error(error);
@@ -51,15 +51,11 @@ export default function MainPage() {
 
   return (
     <div className="min-h-screen bg-slate-950 flex items-center justify-center p-6">
-      {/* Gradient overlay */}
       <div className="absolute inset-0 bg-gradient-to-br from-violet-600/20 via-transparent to-cyan-600/20"></div>
-      
-      {/* Grid pattern background */}
+
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:50px_50px]"></div>
 
-      {/* Main content */}
       <div className="relative w-full max-w-md">
-        {/* Header */}
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-violet-500 to-cyan-500 rounded-2xl mb-4 shadow-lg shadow-violet-500/50">
             <span className="text-3xl">💱</span>
@@ -72,11 +68,8 @@ export default function MainPage() {
           </p>
         </div>
 
-        {/* Converter Card */}
         <div className="bg-slate-900/50 backdrop-blur-xl rounded-3xl p-6 shadow-2xl shadow-black/50">
           <form onSubmit={handleSubmit} className="space-y-5">
-            
-            {/* Date */}
             <div>
               <label className="block text-slate-300 text-sm font-medium mb-2">
                 📅 Select Date
@@ -90,7 +83,6 @@ export default function MainPage() {
               />
             </div>
 
-            {/* From Currency */}
             <div>
               <label className="block text-slate-300 text-sm font-medium mb-2">
                 💰 From
@@ -104,7 +96,11 @@ export default function MainPage() {
                 >
                   <option value="">Currency</option>
                   {Object.keys(currencyNames).map((currency) => (
-                    <option key={currency} value={currency} className="bg-slate-800">
+                    <option
+                      key={currency}
+                      value={currency}
+                      className="bg-slate-800"
+                    >
                       {currency}
                     </option>
                   ))}
@@ -121,20 +117,28 @@ export default function MainPage() {
               </div>
             </div>
 
-            {/* Swap Button */}
             <div className="flex justify-center">
               <button
                 type="button"
                 onClick={handleSwapCurrencies}
                 className="p-3 bg-gradient-to-r from-violet-600 to-cyan-600 text-white rounded-full hover:scale-110 transition-transform shadow-lg shadow-violet-500/30"
               >
-                <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4" />
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M7 16V4m0 0L3 8m4-4l4 4m6 0v12m0 0l4-4m-4 4l-4-4"
+                  />
                 </svg>
               </button>
             </div>
 
-            {/* To Currency */}
             <div>
               <label className="block text-slate-300 text-sm font-medium mb-2">
                 💵 To
@@ -147,14 +151,17 @@ export default function MainPage() {
               >
                 <option value="">Select Currency</option>
                 {Object.keys(currencyNames).map((currency) => (
-                  <option key={currency} value={currency} className="bg-slate-800">
+                  <option
+                    key={currency}
+                    value={currency}
+                    className="bg-slate-800"
+                  >
                     {currency}
                   </option>
                 ))}
               </select>
             </div>
 
-            {/* Convert Button */}
             <button
               type="submit"
               disabled={loading}
@@ -163,8 +170,20 @@ export default function MainPage() {
               {loading ? (
                 <span className="flex items-center justify-center gap-2">
                   <svg className="animate-spin h-5 w-5" viewBox="0 0 24 24">
-                    <circle className="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="4" fill="none"></circle>
-                    <path className="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                    ></path>
                   </svg>
                   Converting...
                 </span>
@@ -174,27 +193,35 @@ export default function MainPage() {
             </button>
           </form>
 
-          {/* Result */}
+   
           {amountInTargetCurrency > 0 && amountInSourceCurrency && (
             <div className="mt-6 p-5 bg-gradient-to-br from-violet-900/30 to-cyan-900/30 rounded-2xl backdrop-blur-sm">
               <div className="text-center">
-                <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">Result</p>
+                <p className="text-slate-400 text-xs uppercase tracking-wider mb-2">
+                  Result
+                </p>
                 <div className="text-4xl font-bold text-white mb-1">
                   {amountInTargetCurrency}
                 </div>
-                <div className="text-cyan-400 font-semibold text-lg mb-3">{targetCurrency}</div>
+                <div className="text-cyan-400 font-semibold text-lg mb-3">
+                  {targetCurrency}
+                </div>
                 <div className="text-slate-400 text-sm">
-                  {amountInSourceCurrency} {sourceCurrency} = {amountInTargetCurrency} {targetCurrency}
+                  {amountInSourceCurrency} {sourceCurrency} ={" "}
+                  {amountInTargetCurrency} {targetCurrency}
                 </div>
                 <div className="text-slate-500 text-xs mt-2">
-                  {new Date(date).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                  {new Date(date).toLocaleDateString("en-US", {
+                    month: "long",
+                    day: "numeric",
+                    year: "numeric",
+                  })}
                 </div>
               </div>
             </div>
           )}
         </div>
 
-        {/* Footer */}
         <div className="text-center mt-6 text-slate-500 text-xs">
           Powered by OpenExchangeRates
         </div>
