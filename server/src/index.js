@@ -12,7 +12,7 @@ app.use(express.json());
 
 const allowedOrigins = [
   "http://localhost:3000",
-  process.env.FRONTEND_URL,
+  "https://currency-converter-website-app.vercel.app",
 ];
 
 app.use(
