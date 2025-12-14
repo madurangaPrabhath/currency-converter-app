@@ -46,7 +46,14 @@ app.get("/convert", async (req, res) => {
   const { date, sourceCurrency, targetCurrency, amountInSourceCurrency } =
     req.query;
   try {
-    const dataUrl = `https://openexchangerates.org/api/historical/${date}.json?app_id=${API_KEY}`;
+    // Check if date is today or future, use latest endpoint
+    const today = new Date().toISOString().split("T")[0];
+    const isToday = date >= today;
+
+    const dataUrl = isToday
+      ? `https://openexchangerates.org/api/latest.json?app_id=${API_KEY}`
+      : `https://openexchangerates.org/api/historical/${date}.json?app_id=${API_KEY}`;
+
     const dataResponse = await axios.get(dataUrl);
     const rates = dataResponse.data.rates;
     const sourceRates = rates[sourceCurrency];
@@ -54,7 +61,12 @@ app.get("/convert", async (req, res) => {
     const targetAmount = (targetRates / sourceRates) * amountInSourceCurrency;
     return res.json(targetAmount.toFixed(2));
   } catch (error) {
-    console.error(error);
+    console.error("Conversion error:", error.message);
+    return res.status(error.response?.status || 500).json({
+      error: true,
+      message:
+        error.response?.data?.description || "Failed to convert currency",
+    });
   }
 });
 

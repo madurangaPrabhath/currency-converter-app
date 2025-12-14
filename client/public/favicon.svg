@@ -1,11 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" width="64" height="64">
-  <defs>
-    <linearGradient id="g" x1="0" x2="1">
-      <stop offset="0" stop-color="#06b6d4"/>
-      <stop offset="1" stop-color="#0ea5a0"/>
-    </linearGradient>
-  </defs>
-  <rect width="64" height="64" rx="10" fill="url(#g)" />
-  <text x="50%" y="54%" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="36" fill="#ffffff">¤</text>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <rect width="64" height="64" rx="12" fill="#4F46E5"/>
+  <g stroke="#ffffff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Top arrow pointing right -->
+    <path d="M16 22 L42 22 M36 16 L42 22 L36 28"/>
+    <!-- Bottom arrow pointing left -->
+    <path d="M48 42 L22 42 M28 36 L22 42 L28 48"/>
+  </g>
 </svg>
