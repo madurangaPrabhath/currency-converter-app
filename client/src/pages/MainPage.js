@@ -4,7 +4,6 @@ import axios from "axios";
 const API_URL = process.env.REACT_APP_API_URL || "http://localhost:8080";
 
 export default function MainPage() {
-  // Set default date to yesterday to avoid API issues with today's date
   const getYesterday = () => {
     const yesterday = new Date();
     yesterday.setDate(yesterday.getDate() - 1);
@@ -65,19 +64,15 @@ export default function MainPage() {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-purple-900 to-pink-800 relative overflow-hidden">
-      {/* Animated Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse"></div>
         <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-pink-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-1000"></div>
         <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse delay-500"></div>
       </div>
 
-      {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-black/20"></div>
 
-      {/* Main Container */}
       <div className="relative min-h-screen flex flex-col items-center justify-center px-3 sm:px-4 md:px-6 lg:px-8 py-6 sm:py-8 md:py-10 lg:py-12">
-        {/* Header Section */}
         <div className="text-center mb-4 sm:mb-6 lg:mb-8 animate-fade-in">
           <div className="inline-flex items-center justify-center mb-3 sm:mb-4 lg:mb-5">
             <div className="relative">
@@ -107,11 +102,8 @@ export default function MainPage() {
           </p>
         </div>
 
-        {/* Main Card */}
         <div className="w-full max-w-3xl mx-auto">
-          {/* Vertical Layout Container */}
           <div className="space-y-4 sm:space-y-5 md:space-y-6">
-            {/* Converter Form */}
             <div className="bg-white/10 backdrop-blur-2xl rounded-xl sm:rounded-2xl md:rounded-3xl shadow-2xl border border-white/20 overflow-hidden">
               <div className="p-4 sm:p-5 md:p-6 lg:p-7 xl:p-8">
                 <h2 className="text-xl sm:text-2xl font-bold text-white mb-4 sm:mb-6 flex items-center gap-2">
@@ -134,7 +126,6 @@ export default function MainPage() {
                   onSubmit={handleSubmit}
                   className="space-y-3 sm:space-y-4"
                 >
-                  {/* Date Picker */}
                   <div className="space-y-1.5 sm:space-y-2">
                     <label className="flex items-center text-xs sm:text-sm lg:text-base font-semibold text-white">
                       <svg
@@ -162,7 +153,6 @@ export default function MainPage() {
                     />
                   </div>
 
-                  {/* From Section */}
                   <div className="space-y-1.5 sm:space-y-2">
                     <label className="flex items-center text-xs sm:text-sm lg:text-base font-semibold text-white">
                       <svg
@@ -217,7 +207,6 @@ export default function MainPage() {
                     </div>
                   </div>
 
-                  {/* Swap Button */}
                   <div className="flex justify-center -my-1 sm:-my-1.5">
                     <button
                       type="button"
@@ -241,7 +230,6 @@ export default function MainPage() {
                     </button>
                   </div>
 
-                  {/* To Section */}
                   <div className="space-y-1.5 sm:space-y-2">
                     <label className="flex items-center text-xs sm:text-sm lg:text-base font-semibold text-white">
                       <svg
@@ -283,7 +271,6 @@ export default function MainPage() {
                     </select>
                   </div>
 
-                  {/* Submit Button */}
                   <button
                     type="submit"
                     disabled={loading}
@@ -338,9 +325,7 @@ export default function MainPage() {
               </div>
             </div>
 
-            {/* Results & Error Display */}
             <div>
-              {/* Result Display */}
               {amountInTargetCurrency > 0 &&
                 amountInSourceCurrency &&
                 !error && (
@@ -436,7 +421,6 @@ export default function MainPage() {
                   </div>
                 )}
 
-              {/* Error Display */}
               {error && (
                 <div className="bg-red-500/20 backdrop-blur-xl rounded-2xl sm:rounded-3xl p-6 border border-red-500/30 animate-fade-in">
                   <div className="flex items-center gap-3 text-red-200">
@@ -464,7 +448,6 @@ export default function MainPage() {
           </div>
         </div>
 
-        {/* Footer */}
         <div className="text-center mt-4 sm:mt-5 md:mt-6 lg:mt-8">
           <p className="text-xs sm:text-sm text-white/60 flex items-center justify-center gap-2">
             <svg

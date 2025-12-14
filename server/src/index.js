@@ -46,7 +46,6 @@ app.get("/convert", async (req, res) => {
   const { date, sourceCurrency, targetCurrency, amountInSourceCurrency } =
     req.query;
   try {
-    // Check if date is today or future, use latest endpoint
     const today = new Date().toISOString().split("T")[0];
     const isToday = date >= today;
 
@@ -74,5 +73,4 @@ app.listen(port, () => {
   console.log("listening on port " + port);
 });
 
-// Export for Vercel serverless
 module.exports = app;
