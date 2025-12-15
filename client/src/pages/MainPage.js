@@ -450,7 +450,18 @@ export default function MainPage() {
           </div>
         </div>
 
-        <div className="text-center mt-4 sm:mt-5 md:mt-6 lg:mt-8">
+        <div className="text-center mt-4 sm:mt-5 md:mt-6 lg:mt-8 space-y-2">
+          <p className="text-xs sm:text-sm text-white/80 font-medium">
+            Developed by{" "}
+            <a
+              href="https://madurangaprabhath.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-white hover:text-indigo-300 transition-colors"
+            >
+              Maduranga Prabhath
+            </a>
+          </p>
           <p className="text-xs sm:text-sm text-white/60 flex items-center justify-center gap-2">
             <svg
               className="w-3.5 h-3.5 sm:w-4 sm:h-4"
