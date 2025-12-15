@@ -1,0 +1,8 @@
+{
+  "name": "currency-converter-app",
+  "version": "1.0.0",
+  "scripts": {
+    "build": "cd client && npm install && npm run build && cd .. && cp -r client/build .",
+    "start": "cd client && npm start"
+  }
+}
